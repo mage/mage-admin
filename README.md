@@ -1,5 +1,9 @@
 # mage-admin
 
+| Dark | Light |
+|---|---|
+|<img src="./images/theme-dark.png" width="100%" /> | <img src="./images/theme-light.png" width="100%" /> |
+
 Admin panel template for [MAGE](https://github.com/mage), based on <a target="_blank" href="http://akveo.com/ngx-admin/">ngx-admin</a>.
 
 ## Usage

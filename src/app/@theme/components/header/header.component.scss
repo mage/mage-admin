@@ -44,15 +44,24 @@
     }
 
     .logo {
-      padding: 0 nb-theme(padding);
+      @include nb-for-theme(default) {
+        background-image: url('/assets/images/logo-light.png');
+        color: #b2b5b7;
+      }
+
+      @include nb-for-theme(dark) {
+        background-image: url('/assets/images/logo-dark.png');
+        color: #b2b5b7;
+      }
+
+      background-repeat: no-repeat;
+      background-size: auto 95%;
+      background-position: 0 2.5px;
+      margin-top: 2px;
+      padding-left: 9.4rem;
       font-size: 1.75rem;
       font-weight: nb-theme(font-weight-bolder);
-      border-left: 1px solid nb-theme(separator);
       white-space: nowrap;
-
-      span {
-        font-weight: nb-theme(font-weight-normal);
-      }
     }
   }
 

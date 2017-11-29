@@ -6,8 +6,8 @@
 @include nb-install-component() {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 50%;
+  align-items: left;
+  margin-top: 6px;
 
   .theme-switch {
     display: flex;
@@ -15,6 +15,7 @@
     align-items: center;
     cursor: pointer;
     margin: 0;
+    padding: 0 20px;
 
     & > span {
       font-size: 1.125rem;
