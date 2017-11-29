@@ -27,7 +27,7 @@
       font-size: 1.5rem;
       margin-bottom: 1rem;
 
-      @include nb-for-theme(cosmic) {
+      @include nb-for-theme(dark) {
         font-weight: nb-theme(font-weight-bolder);
       }
     }

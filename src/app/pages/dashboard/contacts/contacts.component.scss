@@ -48,7 +48,7 @@
       color: nb-theme(color-fg-heading);
       font-size: 1.25rem;
 
-      @include nb-for-theme(cosmic) {
+      @include nb-for-theme(dark) {
         font-weight: nb-theme(font-weight-bolder);
       }
     }

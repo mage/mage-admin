@@ -39,7 +39,7 @@
     justify-content: center;
 
     border: 2px solid nb-theme(separator);
-    @include nb-for-theme(cosmic) {
+    @include nb-for-theme(dark) {
       background-color: lighten(nb-theme(layout-bg), 2%);
       border: none;
     }
@@ -79,7 +79,7 @@
     }
   }
 
-  @include nb-for-theme(cosmic) {
+  @include nb-for-theme(dark) {
     .circle {
       fill: nb-theme(color-fg-heading);
       stroke: nb-theme(color-fg-heading);

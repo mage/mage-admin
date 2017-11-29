@@ -197,7 +197,7 @@
     min-width: 130px;
   }
 
-  @include nb-for-theme(cosmic) {
+  @include nb-for-theme(dark) {
     nb-tabset /deep/ ul li.active {
       background-color: nb-theme(color-primary);
       border-radius: nb-theme(radius);

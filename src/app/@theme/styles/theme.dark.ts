@@ -1,5 +1,5 @@
-export const COSMIC_THEME = {
-  name: 'cosmic',
+export const DARK_THEME = {
+  name: 'dark',
   base: 'default',
   variables: {
 
@@ -55,10 +55,10 @@ export const COSMIC_THEME = {
       lineWidth: '6',
       lineGradFrom: '#00ffaa',
       lineGradTo: '#fff835',
-      lineShadow: 'rgba(14, 16, 48, 0.4)',
+      lineShadow: 'rgba(120, 126, 129, 0.4)',
 
-      areaGradFrom: 'rgba(188, 92, 255, 0.5)',
-      areaGradTo: 'rgba(188, 92, 255, 0)',
+      areaGradFrom: '#8393AF',
+      areaGradTo: '#2c3539',
       shadowLineDarkBg: '#a695ff',
     },
 
@@ -70,7 +70,7 @@ export const COSMIC_THEME = {
     },
 
     echarts: {
-      bg: '#3d3780',
+      bg: '#232a2e',
       textColor: '#ffffff',
       axisLineColor: '#a1a1e5',
       splitLineColor: '#342e73',

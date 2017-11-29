@@ -109,7 +109,7 @@
     }
   }
 
-  @include nb-for-theme(cosmic) {
+  @include nb-for-theme(dark) {
     nb-card {
       &.off .icon-container {
         border-right: 1px solid nb-theme(separator);

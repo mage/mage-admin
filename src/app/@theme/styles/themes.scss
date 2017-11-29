@@ -3,8 +3,13 @@
 // @nebular out of the box themes
 @import '~@nebular/theme/styles/themes';
 
+// Bug - this seems to be missing
+.dropdown.show ul {
+  display: block;
+}
+
 // which themes you what to enable (empty to enable all)
-$nb-enabled-themes: (default, cosmic);
+$nb-enabled-themes: (default, cosmic, dark);
 
 $nb-themes: nb-register-theme((
  // app wise variables for each theme
@@ -24,4 +29,110 @@ $nb-themes: nb-register-theme((
 
   font-main: Roboto,
   font-secondary: Exo,
-), cosmic, cosmic);
+
+  radius: 0.5rem,
+
+  color-bg: #1c2225,
+  color-bg-active: #333434,
+  color-fg: #b2b5b7,
+  color-fg-heading: #ffffff,
+  color-fg-text: #d1d1ff,
+  color-fg-highlight: #e3ebf0,
+
+  color-gray: rgba(81, 113, 165, 0.15),
+  color-neutral: transparent,
+  color-white: #ffffff,
+  color-disabled: rgba(255, 255, 255, 0.4),
+
+  color-primary: #6a8089,
+  color-success: #00d977,
+  color-info: #0088ff,
+  color-warning: #ffa100,
+  color-danger: #ff386a,
+
+  link-color: #00f9a6,
+  link-color-hover: #14ffbe,
+
+  separator: #232a2e,
+  shadow: 0 8px 20px 0 rgba(6, 7, 8, 0.6),
+
+  card-header-font-weight: font-weight-bolder,
+
+  layout-bg: #2c3539,
+
+  scrollbar-fg: #595e60,
+  scrollbar-bg: #1c2225,
+
+  radial-gradient: radial-gradient(circle at 50% 50%, #777778, #060708),
+  linear-gradient: linear-gradient(to right, #060708, #494a4b),
+
+  sidebar-fg: color-secondary,
+  sidebar-bg: color-bg,
+
+  header-fg: color-white,
+  header-bg: color-bg,
+
+  footer-fg: color-fg,
+  footer-bg: color-bg,
+
+  actions-fg: color-fg,
+  actions-bg: color-bg,
+
+  user-fg: color-bg,
+  user-bg: color-fg,
+  user-fg-highlight: color-fg-highlight,
+  user-menu-active-bg: color-primary,
+  user-menu-border: color-primary,
+
+  footer-height: header-height,
+
+  sidebar-width: 16.25rem,
+  sidebar-width-compact: 3.45rem,
+
+  menu-fg: color-fg,
+  menu-bg: color-bg,
+  menu-active-fg: color-white,
+  menu-group-fg: color-white,
+  menu-font-weight: font-weight-normal,
+  menu-active-font-weight: font-weight-bolder,
+  menu-submenu-bg: layout-bg,
+  menu-submenu-fg: color-fg,
+  menu-submenu-active-fg: color-fg-heading,
+  menu-submenu-active-bg: rgba(131, 147, 175, 0.25),
+  menu-submenu-active-border-color: color-fg-highlight,
+  menu-submenu-active-shadow: 0 2px 12px 0 rgba(106, 128, 137, 0.25),
+  menu-item-padding: 0.25rem 1rem 0.25rem 0.75rem,
+  menu-item-separator: transparent,
+
+  btn-hero-shadow: 0 4px 10px 0 rgba(6, 7, 8, 0.6),
+  btn-hero-text-shadow: 0 1px 3px rgba(6, 7, 8, 0.3),
+  btn-hero-bevel-size: 0 3px 0 0,
+  btn-hero-glow-size: 0 2px 8px 0,
+  btn-secondary-border: color-primary,
+  btn-outline-fg: color-fg-heading,
+  btn-outline-hover-fg: color-fg-heading,
+  btn-group-bg: #232a2e,
+  btn-group-separator: #2c3539,
+
+  form-control-bg: #2c3539,
+  form-control-focus-bg: separator,
+  form-control-border-color: separator,
+  form-control-selected-border-color: color-primary,
+
+  checkbox-border-color: color-fg,
+  checkbox-selected-border-color: color-success,
+  radio-fg: color-fg-heading,
+
+  search-bg: linear-gradient(to right, #060708, #1c1d1e),
+
+  smart-table-header-font-weight: font-weight-normal,
+  smart-table-header-bg: color-bg-active,
+  smart-table-bg-even: #2c3539,
+  smart-table-bg-active: color-bg-active,
+
+  smart-table-paging-border-color: color-primary,
+  smart-table-paging-border-width: 2px,
+  smart-table-paging-fg-active: color-fg-heading,
+  smart-table-paging-bg-active: color-primary,
+  smart-table-paging-hover: rgba(0, 0, 0, 0.2),
+), dark, cosmic);

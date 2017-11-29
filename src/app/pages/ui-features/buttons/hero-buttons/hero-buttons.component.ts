@@ -29,7 +29,7 @@ export class HeroButtonComponent implements OnDestroy {
         gradientLeft: `adjust-hue(${colors.primary}, 20deg)`,
         gradientRight: colors.primary,
       },
-      cosmic: {
+      dark: {
         gradientLeft: `adjust-hue(${colors.primary}, 20deg)`,
         gradientRight: colors.primary,
         bevel: `shade(${colors.primary}, 14%)`,
@@ -45,7 +45,7 @@ export class HeroButtonComponent implements OnDestroy {
         gradientLeft: `adjust-hue(${colors.warning}, 10deg)`,
         gradientRight: colors.warning,
       },
-      cosmic: {
+      dark: {
         gradientLeft: `adjust-hue(${colors.warning}, 10deg)`,
         gradientRight: colors.warning,
         bevel: `shade(${colors.warning}, 14%)`,
@@ -61,7 +61,7 @@ export class HeroButtonComponent implements OnDestroy {
         gradientLeft: `adjust-hue(${colors.success}, 20deg)`,
         gradientRight: colors.success,
       },
-      cosmic: {
+      dark: {
         gradientLeft: `adjust-hue(${colors.success}, 20deg)`,
         gradientRight: colors.success,
         bevel: `shade(${colors.success}, 14%)`,
@@ -77,7 +77,7 @@ export class HeroButtonComponent implements OnDestroy {
         gradientLeft: `adjust-hue(${colors.info}, -10deg)`,
         gradientRight: colors.info,
       },
-      cosmic: {
+      dark: {
         gradientLeft: `adjust-hue(${colors.info}, -10deg)`,
         gradientRight: colors.info,
         bevel: `shade(${colors.info}, 14%)`,
@@ -93,7 +93,7 @@ export class HeroButtonComponent implements OnDestroy {
         gradientLeft: `adjust-hue(${colors.danger}, -20deg)`,
         gradientRight: colors.danger,
       },
-      cosmic: {
+      dark: {
         gradientLeft: `adjust-hue(${colors.danger}, -20deg)`,
         gradientRight: colors.danger,
         bevel: `shade(${colors.danger}, 14%)`,
@@ -108,7 +108,7 @@ export class HeroButtonComponent implements OnDestroy {
       default: {
         border: '#dadfe6',
       },
-      cosmic: {
+      dark: {
         border: colors.primary,
         bevel: '#665ebd',
         shadow: 'rgba (33, 7, 77, 0.5)',

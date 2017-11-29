@@ -114,7 +114,7 @@
 
   ngb-rating i {
     color: nb-theme(color-success);
-    @include nb-for-theme(cosmic) {
+    @include nb-for-theme(dark) {
       color: nb-theme(color-primary);
     }
   }

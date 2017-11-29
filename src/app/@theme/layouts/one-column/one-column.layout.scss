@@ -37,7 +37,7 @@
         width: $sidebar-width;
       }
 
-      @include nb-for-theme(cosmic) {
+      @include nb-for-theme(dark) {
         background: nb-theme(layout-bg);
       }
     }

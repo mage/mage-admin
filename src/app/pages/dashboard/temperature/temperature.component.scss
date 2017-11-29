@@ -115,7 +115,7 @@
     }
   }
 
-  @include nb-for-theme(cosmic) {
+  @include nb-for-theme(dark) {
     .btn-icon.active {
       color: nb-theme(color-fg-heading);
       border-color: nb-theme(color-fg-highlight);

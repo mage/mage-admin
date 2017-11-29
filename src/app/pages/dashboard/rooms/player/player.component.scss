@@ -63,7 +63,7 @@
       margin-top: calc(0.75rem - 1px);
       width: 100px;
 
-      @include nb-for-theme(cosmic) {
+      @include nb-for-theme(dark) {
         background-color: nb-theme(link-color);
       }
     }
@@ -93,7 +93,7 @@
         background: nb-theme(separator);
       }
 
-      @include nb-for-theme(cosmic) {
+      @include nb-for-theme(dark) {
         @include install-thumb() {
           background: nb-theme(link-color);
         }
@@ -132,7 +132,7 @@
       &.active {
         color: nb-theme(color-success);
 
-        @include nb-for-theme(cosmic) {
+        @include nb-for-theme(dark) {
           color: nb-theme(link-color);
         }
       }

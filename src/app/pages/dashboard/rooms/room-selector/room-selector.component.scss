@@ -67,9 +67,9 @@
     padding-bottom: 0;
   }
 
-  @include nb-for-theme(cosmic) {
+  @include nb-for-theme(dark) {
     .stroke-pattern, .stroked-element, .room-border {
-      stroke: #a1a1e5;
+      stroke: #b2b5b7;
     }
 
     .room-text {
