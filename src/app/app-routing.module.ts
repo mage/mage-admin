@@ -1,48 +1,44 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import {
-  NbAuthComponent,
-  NbLoginComponent,
-  NbLogoutComponent,
-  NbRegisterComponent,
-  NbRequestPasswordComponent,
-  NbResetPasswordComponent,
-} from '@nebular/auth';
+
+import { NbAuthComponent } from '@nebular/auth';
+
+import { MageAuthBlockComponent } from './@theme/components/auth/auth-block/auth-block.component';
+import { MageLoginComponent } from './@theme/components/auth/login/login.component';
+import { MageRegisterComponent } from './@theme/components/auth/register/register.component';
+import { MageLogoutComponent } from './@theme/components/auth/logout/logout.component';
+import { MageRequestPasswordComponent } from './@theme/components/auth/request-password/request-password.component';
+import { MageResetPasswordComponent } from './@theme/components/auth/reset-password/reset-password.component';
+
+
+import { MageAuthGuard } from './mage/auth-guard.service';
 
 const routes: Routes = [
-  { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
+  { path: 'pages', canActivate: [ MageAuthGuard ], loadChildren: 'app/pages/pages.module#PagesModule' },
   {
     path: 'auth',
     component: NbAuthComponent,
     children: [
       {
         path: '',
-        component: NbLoginComponent,
+        component: MageLoginComponent,
       },
       {
         path: 'login',
-        component: NbLoginComponent,
-      },
-      {
-        path: 'register',
-        component: NbRegisterComponent,
+        component: MageLoginComponent,
       },
       {
         path: 'logout',
-        component: NbLogoutComponent,
+        component: MageLogoutComponent,
       },
       {
-        path: 'request-password',
-        component: NbRequestPasswordComponent,
-      },
-      {
-        path: 'reset-password',
-        component: NbResetPasswordComponent,
+        path: 'register',
+        component: MageRegisterComponent,
       },
     ],
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  { path: '', canActivate: [ MageAuthGuard ], redirectTo: 'pages', pathMatch: 'full' },
+  { path: '**', canActivate: [ MageAuthGuard ], redirectTo: 'pages' },
 ];
 
 const config: ExtraOptions = {

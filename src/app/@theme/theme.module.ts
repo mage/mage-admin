@@ -1,7 +1,18 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+/**
+ * Customized login components
+ */
+import { MageAuthBlockComponent } from './components/auth/auth-block/auth-block.component';
+import { MageLoginComponent } from './components/auth/login/login.component';
+import { MageRegisterComponent } from './components/auth/register/register.component';
+import { MageLogoutComponent } from './components/auth/logout/logout.component';
+import { MageRequestPasswordComponent } from './components/auth/request-password/request-password.component';
+import { MageResetPasswordComponent } from './components/auth/reset-password/reset-password.component';
 
 import {
   NbActionsModule,
@@ -38,6 +49,7 @@ import { DARK_THEME } from './styles/theme.dark';
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
 const NB_MODULES = [
+  RouterModule,
   NbCardModule,
   NbLayoutModule,
   NbTabsetModule,
@@ -52,6 +64,12 @@ const NB_MODULES = [
 ];
 
 const COMPONENTS = [
+  MageAuthBlockComponent,
+  MageLoginComponent,
+  MageRegisterComponent,
+  MageRequestPasswordComponent,
+  MageResetPasswordComponent,
+  MageLogoutComponent,
   ThemeSwitcherComponent,
   HeaderComponent,
   FooterComponent,
@@ -85,7 +103,10 @@ const NB_THEME_PROVIDERS = [
 @NgModule({
   imports: [...BASE_MODULES, ...NB_MODULES],
   exports: [...BASE_MODULES, ...NB_MODULES, ...COMPONENTS, ...PIPES],
-  declarations: [...COMPONENTS, ...PIPES],
+  declarations: [
+    ...COMPONENTS,
+    ...PIPES,
+  ],
 })
 export class ThemeModule {
   static forRoot(): ModuleWithProviders {
