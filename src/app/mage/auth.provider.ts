@@ -9,8 +9,9 @@ import 'rxjs/add/observable/fromPromise';
 import { MageService } from './service';
 
 class MageAuthSimpleToken extends NbAuthSimpleToken {
-  constructor(public token: string) {
+  constructor(public mage: MageService) {
     super();
+    this.setValue(mage.getSessionKey());
   }
 }
 
@@ -32,15 +33,15 @@ export class MageAuthProvider extends NbAbstractAuthProvider {
 
   authenticate(data?: any): Observable<NbAuthResult> {
     const promise = this.mageService.initialize(data.url)
-      .then(() => this.mageService.call('admin', 'login', data.email, data.password))
+      .then(() => this.mageService.login(data.email, data.password))
       .then(() => this.mageService.setup())
       .then((result) => new NbAuthResult(
         true,
         result,
         '/',
         [],
-        ['You have been successfully logged in'],
-        new MageAuthSimpleToken('123')
+        [/* 'You have been successfully logged in' */],
+        new MageAuthSimpleToken(this.mageService)
       ))
       .catch((error) => new NbAuthResult(
         false,

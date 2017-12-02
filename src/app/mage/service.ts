@@ -17,6 +17,7 @@ import * as sessionModule from 'mage-sdk-js.session';
 
 import { Injectable } from '@angular/core';
 import { NbTokenService } from '@nebular/auth';
+import { UserService } from '../@core/data/users.service';
 
 const MageLocalStorageKeys = {
   Url: 'MAGE_URL',
@@ -29,7 +30,7 @@ export class MageService {
   url: URL;
   client = mage;
 
-  constructor(protected tokenService: NbTokenService) {}
+  constructor(protected tokenService: NbTokenService, protected userService: UserService) {}
 
   async load(): Promise<boolean> {
     // Resend pending user commands on error
@@ -50,6 +51,11 @@ export class MageService {
     await this.loadSession();
 
     return true;
+  }
+
+  public async login(email: string, password: string) {
+    return this.call('admin', 'login', email, password)
+      .then((user) => this.setCurrentUser(user));
   }
 
   public async call(mod: string, userCommand: string, ...args: any[]): Promise<any> {
@@ -118,14 +124,8 @@ export class MageService {
     return this.runClientSetup();
   }
 
-  private async runClientSetup() {
-    return new Promise((resolve, reject) => this.client.setup((error) => {
-      if (error) {
-        return reject(error);
-      }
-
-      resolve();
-    }));
+  public getSessionKey() {
+    return localStorage.getItem(MageLocalStorageKeys.Session);
   }
 
   private storeSession(session: any) {
@@ -133,9 +133,11 @@ export class MageService {
   }
 
   private clearSession() {
+    this.clearCurrentUser();
     this.tokenService.clear();
     localStorage.removeItem(MageLocalStorageKeys.Session);
   }
+
   private async loadSession() {
     const url = localStorage.getItem(MageLocalStorageKeys.Url);
 
@@ -143,7 +145,7 @@ export class MageService {
       try {
         await this.initialize(url);
 
-        const sessionData = localStorage.getItem(MageLocalStorageKeys.Session);
+        const sessionData = this.getSessionKey();
 
         if (sessionData) {
           const session = JSON.parse(sessionData);
@@ -156,5 +158,23 @@ export class MageService {
         localStorage.removeItem(MageLocalStorageKeys.Session);
       }
     }
+  }
+
+  private setCurrentUser(user: any) {
+    this.userService.setCurrentUser(user);
+  }
+
+  private clearCurrentUser() {
+    this.userService.clearCurrentUser();
+  }
+
+  private async runClientSetup() {
+    return new Promise((resolve, reject) => this.client.setup((error) => {
+      if (error) {
+        return reject(error);
+      }
+
+      resolve();
+    }));
   }
 }

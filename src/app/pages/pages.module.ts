@@ -3,12 +3,14 @@ import { Router } from '@angular/router';
 
 import { PagesComponent } from './pages.component';
 
-import { DashboardModule } from './dashboard/dashboard.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 
 import { ToasterService, ToasterModule, Toast } from 'angular2-toaster';
 import { MageService } from '../mage/service';
+
+import { TemplatesModule } from './templates/templates.module';
+import { BasicModule } from './basic/basic.module';
 
 const SERVICES = [
   MageService,
@@ -23,8 +25,9 @@ const PAGES_COMPONENTS = [
   imports: [
     ToasterModule,
     PagesRoutingModule,
+    TemplatesModule,
+    BasicModule,
     ThemeModule,
-    DashboardModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -40,6 +43,7 @@ export class PagesModule {
     private router: Router
   ) {
     mageService.on('session.unset', (...args: any[]) => {
+      this.clearToasts();
       this.toasterService.popAsync({
         type: 'warning',
         title: 'Session expired',
@@ -53,6 +57,7 @@ export class PagesModule {
   }
 
   private emitNetworkIssueToast() {
+    this.clearToasts();
     this.toasterService.popAsync({
       type: 'error',
 
@@ -60,5 +65,9 @@ export class PagesModule {
       body: 'Either your connection is unstable or the server is having issues',
       timeout: 10000
     });
+  }
+
+  private clearToasts() {
+    this.toasterService.clear();
   }
 }

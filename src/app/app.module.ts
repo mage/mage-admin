@@ -50,6 +50,9 @@ export function mageServiceFactory(mageService: MageService) {
       forms: {
         login: {
           redirectDelay: 0,
+          showMessage: {
+            success: false
+          }
         },
         register: {
           redirectDelay: 3000,

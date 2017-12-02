@@ -8,6 +8,16 @@ import 'style-loader!angular2-toaster/toaster.css';
 
 @Component({
   selector: 'ngx-pages',
+  styles: [`
+    nb-menu /deep/ .menu-item .menu-icon.fa {
+      font-size: 2rem;
+      line-height: normal;
+    }
+
+    nb-menu /deep/ .menu-group {
+      padding: 1.5rem 1.25rem 1rem;
+    }
+  `],
   template: `
     <ngx-sample-layout>
       <nb-menu [items]="menu"></nb-menu>
