@@ -1,1 +1,31 @@
-<h1>Topics</h1>
+
+<nb-card class="usercommands">
+  <nb-card-header>
+    <h2>Select Topics</h2>
+  </nb-card-header>
+  <nb-card-body>
+    <select [(ngModel)]="topicName" (ngModelChange)="setTopic($event)" class="form-control">
+      <option *ngFor="let topic of getTopicsName()" value="{{ topic }}">{{ topic }}</option>
+    </select>
+    <div *ngIf="topic" class="topic">
+      <form #f="ngForm" (ngSubmit)="find(f)" novalidate>
+        <div *ngFor="let field of topic.index; let i = index" class="input-group">
+          <input type="text" name="{{ field }}" placeholder="{{ field }}" class="form-control" ngModel />
+        </div>
+        <div class="send col-md-2 offset-md-10">
+          <button type="submit" class="btn btn-hero-success">Send</button>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="errors">
+      <div class="alert alert-danger" *ngFor="let error of errors">{{ error.error }}{{ error.message }}</div>
+    </div>
+    <div class="col-md-12">
+      <div jsoneditor [jsonData]="value" *ngIf="value" class="response"></div>
+    </div>
+    <div *ngIf="data" class="send col-md-2 offset-md-10">
+      <button (click)="save()" type="submit" class="btn btn-hero-danger">Save</button>
+    </div>
+  </nb-card-body>
+</nb-card>
+<toaster-container [toasterconfig]="toasterConfig"></toaster-container>

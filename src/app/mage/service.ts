@@ -33,6 +33,14 @@ export class MageService {
   constructor(protected tokenService: NbTokenService, protected userService: UserService) {}
 
   async load(): Promise<boolean> {
+    // Implement wildcard emission
+    const emitEvent = this.client.eventManager.emitEvent.bind(this.client.eventManager);
+    this.client.eventManager.emitEvent = function (eventName: string, data: any) {
+      emitEvent(eventName, data);
+
+      this.emit('*', eventName, data);
+    };
+
     // Resend pending user commands on error
     this.on('io.error.network', () => setTimeout(() => mage.commandCenter.resend(), 1000));
 
@@ -74,6 +82,14 @@ export class MageService {
     this.client.eventManager.on(eventName, callback);
   }
 
+  public getUserCommands() {
+    return this.client.config.server.commandCenter.commands;
+  }
+
+  public getTopics() {
+    return this.client.archivist.getTopics();
+  }
+
   public async setup() {
     const appName = this.url.pathname.split('/')[1];
     const realConfig = await this.call('admin', 'getConfig', appName, this.url.origin);
@@ -83,8 +99,25 @@ export class MageService {
     const key = this.client.session.getKey();
 
     if (key) {
+      // Reset the message stream
+      if (this.client.msgServer.isRunning) {
+        this.client.msgServer.destroy();
+      }
+
       this.client.msgServer.setSessionKey(key);
-      this.client.msgServer.stream.on('error', () => this.client.eventManager.emit('io.error.network'));
+
+      let errorCount = 0;
+
+      this.client.msgServer.stream.on('error', (error) => {
+        errorCount += 1
+
+        setTimeout(() => errorCount -= 1, 15000)
+
+        if (errorCount > 2) {
+          this.client.eventManager.emit('io.error.network')
+        }
+      });
+
       this.client.msgServer.start();
     }
 
@@ -122,6 +155,16 @@ export class MageService {
     this.client.addModule('session', sessionModule);
 
     return this.runClientSetup();
+  }
+
+  public getClientCopy() {
+    const config = this.client.config;
+
+    return new Mage(config);
+  }
+
+  public getActorId() {
+    return this.client.session.getActorId();
   }
 
   public getSessionKey() {

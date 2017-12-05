@@ -1,5 +1,27 @@
 @import '../../../@theme/styles/themes';
 
 @include nb-install-component() {
+  .topic {
+    .input-group {
+      margin: 0 0 10px;
+    }
 
+    .send {
+      text-align: right;
+    }
+  }
+
+  .response {
+    display: block;
+    margin: 20px 0;
+    border-radius: 3px;
+    background: #dadfe6;
+    box-shadow: 0 8px 10px 0 rgba(6, 7, 8, 0.3);
+    text-shadow: 0 1px 3px rgba(6, 7, 8, 0.3);
+  }
+
+  .send {
+    text-align: right;
+    margin-bottom: 10px;
+  }
 }

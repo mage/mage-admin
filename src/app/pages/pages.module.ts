@@ -11,6 +11,7 @@ import { MageService } from '../mage/service';
 
 import { TemplatesModule } from './templates/templates.module';
 import { BasicModule } from './basic/basic.module';
+import { ProjectModule } from './project/project.module';
 
 const SERVICES = [
   MageService,
@@ -27,6 +28,7 @@ const PAGES_COMPONENTS = [
     PagesRoutingModule,
     TemplatesModule,
     BasicModule,
+    ProjectModule,
     ThemeModule,
   ],
   declarations: [

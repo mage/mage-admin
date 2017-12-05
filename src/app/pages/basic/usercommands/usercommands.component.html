@@ -1,1 +1,44 @@
-<h1>User commands</h1>
+<nb-card class="usercommands">
+  <nb-card-header>
+    <h2>User commands</h2>
+  </nb-card-header>
+  <nb-card-body>
+    <ngb-accordion [closeOthers]="true">
+      <ngb-panel *ngFor="let module of userCommands">
+        <ng-template ngbPanelTitle>
+          <span><i class="ion-chevron-right"></i> {{ module.name }}</span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <ngb-accordion [closeOthers]="true">
+                <ngb-panel *ngFor="let userCommand of module.userCommands">
+                  <ng-template ngbPanelTitle>
+                    <span><i class="ion-ios-bolt"></i> {{ userCommand.name }}</span>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                      <form #f="ngForm" (ngSubmit)="onSend(module.name, userCommand.name, userCommand, f)" novalidate>
+                        <div *ngFor="let param of userCommand.params" class="input-group">
+                          <input type="text" name="{{ param }}" placeholder="{{ param }}" class="form-control" ngModel/>
+                        </div>
+                        <div class="submit col-md-2 offset-md-10">
+                          <button type="submit" class="btn btn-hero-success">Send</button>
+                        </div>
+                      </form>
+                      <div renderjson [jsonData]="userCommand.response" *ngIf="userCommand.response" class="response"></div>
+                  </ng-template>
+                </ngb-panel>
+              </ngb-accordion>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </nb-card-body>
+</nb-card>
+<div class="status">
+  <div class="input-group">
+    <div class="input-group-addon">Actor ID</div>
+    <input name="actorId" type="text" class="form-control" placeholder="Not logged in" [ngModel]="actorId">
+    <span class="input-group-btn">
+      <button (click)="clear()" class="btn btn-danger">Clear</button>
+    </span>
+  </div>
+  <ng2-smart-table [settings]="settings" [source]="source"></ng2-smart-table>
+</div>

@@ -3,6 +3,8 @@
 // @nebular out of the box themes
 @import '~@nebular/theme/styles/themes';
 
+@import '~jsoneditor/dist/jsoneditor.css';
+
 // Bug - this seems to be missing
 .dropdown.show ul {
   display: block;

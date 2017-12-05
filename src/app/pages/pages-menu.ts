@@ -12,7 +12,7 @@ const BASIC_MENU_ITEMS = [
     link: '/pages/basic/user-commands',
   },
   {
-    title: 'Topics data',
+    title: 'Topics',
     icon: 'fa fa-lg fa-database',
     link: '/pages/basic/topics',
   },

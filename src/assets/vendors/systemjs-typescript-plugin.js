@@ -1,0 +1,1 @@
+../../../node_modules/plugin-typescript/lib/plugin.js

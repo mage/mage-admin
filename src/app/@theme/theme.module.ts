@@ -46,6 +46,11 @@ import {
 import { DEFAULT_THEME } from './styles/theme.default';
 import { DARK_THEME } from './styles/theme.dark';
 
+import {
+  JsonEditorDirective,
+  RenderJsonDirective,
+} from './directives';
+
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
 const NB_MODULES = [
@@ -61,6 +66,11 @@ const NB_MODULES = [
   NbSidebarModule,
   NbCheckboxModule,
   NgbModule,
+];
+
+const DIRECTIVES = [
+  JsonEditorDirective,
+  RenderJsonDirective
 ];
 
 const COMPONENTS = [
@@ -102,8 +112,9 @@ const NB_THEME_PROVIDERS = [
 
 @NgModule({
   imports: [...BASE_MODULES, ...NB_MODULES],
-  exports: [...BASE_MODULES, ...NB_MODULES, ...COMPONENTS, ...PIPES],
+  exports: [...BASE_MODULES, ...NB_MODULES, ...DIRECTIVES, ...COMPONENTS, ...PIPES],
   declarations: [
+    ...DIRECTIVES,
     ...COMPONENTS,
     ...PIPES,
   ],
