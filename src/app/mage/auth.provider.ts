@@ -8,6 +8,16 @@ import 'rxjs/add/observable/fromPromise';
 
 import { MageService } from './service';
 
+function trackError(error: Error) {
+  console.error(error)
+  return new NbAuthResult(
+    false,
+    null,
+    false,
+    [error],
+  )
+}
+
 class MageAuthSimpleToken extends NbAuthSimpleToken {
   constructor(public mage: MageService) {
     super();
@@ -43,19 +53,15 @@ export class MageAuthProvider extends NbAbstractAuthProvider {
         [/* 'You have been successfully logged in' */],
         new MageAuthSimpleToken(this.mageService)
       ))
-      .catch((error) => new NbAuthResult(
-        false,
-        null,
-        false,
-        [error],
-      ));
+      .catch(trackError);
 
     return Observable.fromPromise(promise);
   }
 
   register(data?: any): Observable<NbAuthResult> {
+    const client = this.mageService.getClient();
     const promise = this.mageService.initialize(data.url)
-      .then(() => this.mageService.call('admin', 'register', data.email, data.password))
+      .then(() => client.admin.register(data.email, data.password))
       .then((result) => new NbAuthResult(
         true,
         result,
@@ -63,12 +69,7 @@ export class MageAuthProvider extends NbAbstractAuthProvider {
         [],
         ['Registration succeeded']
       ))
-      .catch((error) => new NbAuthResult(
-        false,
-        null,
-        false,
-        [error],
-      ));
+      .catch(trackError);
 
     return Observable.fromPromise(promise);
   }
@@ -81,7 +82,8 @@ export class MageAuthProvider extends NbAbstractAuthProvider {
   }
 
   logout(): Observable<NbAuthResult> {
-    const promise = this.mageService.call('admin', 'logout')
+    const client = this.mageService.getClient();
+    const promise = client.admin.logout()
       .then((result) => new NbAuthResult(
         true,
         result,
@@ -89,12 +91,7 @@ export class MageAuthProvider extends NbAbstractAuthProvider {
         [],
         ['Logout successful']
       ))
-      .catch((error) => new NbAuthResult(
-        false,
-        null,
-        false,
-        [error],
-      ));
+      .catch(trackError);
 
     return Observable.fromPromise(promise);
   }

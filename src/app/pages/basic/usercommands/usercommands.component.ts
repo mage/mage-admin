@@ -15,7 +15,7 @@ export class UserCommandsComponent {
   settings = {
     hideHeader: true,
     pager: {
-      perPage: 3
+      perPage: 5
     },
     actions: {
       add: false,
@@ -26,16 +26,16 @@ export class UserCommandsComponent {
       time: {
         title: 'Time',
         width: '20px',
-        type: 'string',
+        type: 'text',
       },
       eventName: {
         title: 'Event name',
         width: '20px',
-        type: 'string',
+        type: 'text',
       },
       eventData: {
         title: 'Received data',
-        type: 'string',
+        type: 'html',
       },
     },
   };
@@ -45,58 +45,64 @@ export class UserCommandsComponent {
 
   userCommands = [];
 
+  open = false;
+
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private smartTableService: SmartTableService, private mageService: MageService) {
+  constructor(_smartTableService: SmartTableService, mageService: MageService) {
     const data = [];
+    const modules = mageService.getModulesUserCommands()
+    this.userCommands = Object.entries(modules)
+      .filter(([name]) => name !== 'config')
+      .map(([name, userCommands]) => ({ name, userCommands }))
+      .sort(({ name: a }, { name: b }) => a > b ? 1 : -1);
 
-    const client = mageService.getClientCopy();
-    const realEmit = client.eventManager.emitEvent.bind(client.eventManager);
+    mageService.cloneClient().then((client) => {
+      const realEmit = client.eventManager.emitEvent.bind(client.eventManager);
 
-    client.eventManager.emitEvent = (eventName: string, eventData: any) => {
-      realEmit(eventName, eventData);
+      client.eventManager.emitEvent = (eventName: string, eventData: any) => {
+        realEmit(eventName, eventData);
 
-      // Hide generic IO events
-      if (eventName === 'io.error.network') {
-        return client.commandCenter.resend();
-      }
+        // Hide generic IO events
+        if (eventName === 'io.error.network') {
+          return client.commandCenter.resend();
+        }
 
-      if (eventName.indexOf('io.') === 0) {
-        return;
-      }
+        if (eventName.indexOf('io.') === 0) {
+          return;
+        }
 
-      if (eventName === 'session.set') {
-        client.msgServer.setSessionKey(eventData.key);
-        client.msgServer.start();
-        client.commandCenter.registerCommandHook('mage.session', () => ({ key: eventData.key }));
-        this.actorId = eventData.actorId;
-      }
+        if (eventName === 'session.set') {
+          client.msgServer.setSessionKey(eventData.key);
+          client.msgServer.start();
+          client.commandCenter.registerCommandHook('mage.session', () => ({ key: eventData.key }));
+          this.actorId = eventData.actorId;
+        }
 
-      if (eventName === 'session.unset') {
-        client.msgServer.stream.destroy();
-        client.commandCenter.unregisterCommandHook('mage.session');
-        this.actorId = null;
-      }
+        if (eventName === 'session.unset') {
+          client.msgServer.stream.destroy();
+          client.commandCenter.unregisterCommandHook('mage.session');
+          this.actorId = null;
+        }
 
-      const time = new Date().toJSON().split('T')[1];
+        const time = new Date().toJSON().split('T')[1];
 
-      data.unshift({ time, eventName, eventData: JSON.stringify(eventData, null, 2) });
+        data.unshift({ time, eventName, eventData: `<pre>${JSON.stringify(eventData, null, 2)}</pre>` });
 
-      if (data.length >= 200) {
-        data.pop();
-      }
+        if (data.length >= 200) {
+          data.pop();
+        }
+
+        this.source.load(data);
+      };
 
       this.source.load(data);
-    };
+      this.client = client;
+    });
+  }
 
-    this.source.load(data);
-    this.client = client;
-
-    this.userCommands = Object.entries(mageService.getUserCommands())
-      .map(([name, userCommands]) => ({
-        name,
-        userCommands
-      }));
+  public toggle() {
+    this.open = !this.open
   }
 
   public clear() {
@@ -110,17 +116,17 @@ export class UserCommandsComponent {
     try {
       const args = Object
         .values(form.value)
-        .map((value) => value ? JSON.parse(value) : undefined);
-      response = await new Promise((resolve, reject) => {
-        this.client.commandCenter.sendCommand(`${mod}.${userCommand}`, args, (error: Error | undefined, data: any) => {
-          if (error) {
-            return reject(error);
+        .map((value: string) => {
+          try {
+            return JSON.parse(value)
+          } catch (error) {
+            return value
           }
-
-          resolve(data);
         });
-      });
+
+      response = await this.client[mod][userCommand](...args)
     } catch (error) {
+      console.error(error)
       response = error.message || error;
     } finally {
       userCommandData.response = response;

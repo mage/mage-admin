@@ -1,14 +1,5 @@
 import { Router } from '@angular/router';
-
-/**
- * Get MAGE to shut up about... *sigh* globals
- */
-(<any> window).mageConfig = {};
 import * as mage from 'mage-sdk-js';
-
-/**
- * Import modules
- */
 import * as Mage from 'mage-sdk-js/lib/Mage';
 
 import * as archivistModule from 'mage-sdk-js.archivist';
@@ -27,10 +18,13 @@ const MageLocalStorageKeys = {
 @Injectable()
 export class MageService {
   // Todo: make client injectable
-  url: URL;
-  client = mage;
+  public url: URL;
 
-  constructor(protected tokenService: NbTokenService, protected userService: UserService) {}
+  public initialized: boolean = false;
+
+  private client = mage;
+
+  constructor(protected tokenService: NbTokenService, protected userService: UserService) { }
 
   async load(): Promise<boolean> {
     // Implement wildcard emission
@@ -62,40 +56,19 @@ export class MageService {
   }
 
   public async login(email: string, password: string) {
-    return this.call('admin', 'login', email, password)
-      .then((user) => this.setCurrentUser(user));
-  }
+    if(!this.client.admin) {
+      throw new Error('admin module not found on remote server. Is mage-module-admin installed?')
+    }
 
-  public async call(mod: string, userCommand: string, ...args: any[]): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.client.commandCenter.sendCommand(`${mod}.${userCommand}`, args, (error: Error | undefined, data: any) => {
-        if (error) {
-          return reject(error);
-        }
-
-        resolve(data);
-      });
-    });
+    const user = await this.client.admin.login(email, password)
+    return this.setCurrentUser(user)
   }
 
   public on(eventName: string, callback: (...args: any[]) => void) {
     this.client.eventManager.on(eventName, callback);
   }
 
-  public getUserCommands() {
-    return this.client.config.server.commandCenter.commands;
-  }
-
-  public getTopics() {
-    return this.client.archivist.getTopics();
-  }
-
   public async setup() {
-    const appName = this.url.pathname.split('/')[1];
-    const realConfig = await this.call('admin', 'getConfig', appName, this.url.origin);
-
-    this.client.configure(realConfig);
-
     const key = this.client.session.getKey();
 
     if (key) {
@@ -120,51 +93,45 @@ export class MageService {
 
       this.client.msgServer.start();
     }
-
-    this.client.addModule('archivist', archivistModule);
-    this.client.addModule('time', timeModule);
-
-    return this.runClientSetup();
   }
 
   public async initialize(url: string) {
+    this.url = new URL(url);
+    mage.setEndpoint(this.url.origin);
     localStorage.setItem(MageLocalStorageKeys.Url, url);
 
-    this.url = new URL(url);
-    this.client.configure({
-      server: {
-        commandCenter: {
-          url,
-          timeout: 15000,
-          commands: {
-            admin: [{
-              name: 'getConfig',
-              params: ['app', 'url']
-            }, {
-              name: 'register',
-              params: ['email', 'password']
-            }, {
-              name: 'login',
-              params: ['email', 'password']
-            }]
-          }
-        }
-      }
-    });
+    await this.runClientSetup();
+    await this.client.setupModule('session', sessionModule);
+    await this.client.setupModule('time', timeModule);
+    await this.client.setupModule('archivist', archivistModule);
 
-    this.client.addModule('session', sessionModule);
+    this.initialized = true;
 
-    return this.runClientSetup();
+    return
   }
 
-  public getClientCopy() {
-    const config = this.client.config;
+  public getClient() {
+    return this.client;
+  }
 
-    return new Mage(config);
+  public async cloneClient() {
+    const clone = new Mage(this.client.config);
+    clone.setEndpoint(this.url.origin)
+    await this.runClientSetup(clone)
+
+    return clone
   }
 
   public getActorId() {
     return this.client.session.getActorId();
+  }
+
+  public getModulesUserCommands() {
+    return this.client.config.server.commandCenter.commands;
+  }
+
+  public getTopics() {
+    return this.client.archivist.getTopics();
   }
 
   public getSessionKey() {
@@ -183,20 +150,16 @@ export class MageService {
 
   private async loadSession() {
     const url = localStorage.getItem(MageLocalStorageKeys.Url);
-
-    if (url) {
+    const sessionData = this.getSessionKey();
+    if (url && sessionData) {
       try {
         await this.initialize(url);
 
-        const sessionData = this.getSessionKey();
+        const session = JSON.parse(sessionData);
+        this.client.session.setActorId(session.actorId);
+        this.client.session.setKey(session.key);
 
-        if (sessionData) {
-          const session = JSON.parse(sessionData);
-          this.client.session.setActorId(session.actorId);
-          this.client.session.setKey(session.key);
-
-          await this.setup();
-        }
+        await this.setup();
       } catch (error) {
         localStorage.removeItem(MageLocalStorageKeys.Session);
       }
@@ -211,8 +174,8 @@ export class MageService {
     this.userService.clearCurrentUser();
   }
 
-  private async runClientSetup() {
-    return new Promise((resolve, reject) => this.client.setup((error) => {
+  private async runClientSetup(client = this.client) {
+    await new Promise((resolve, reject) => client.configure((error) => {
       if (error) {
         return reject(error);
       }

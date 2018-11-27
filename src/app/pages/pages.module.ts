@@ -14,7 +14,6 @@ import { BasicModule } from './basic/basic.module';
 import { ProjectModule } from './project/project.module';
 
 const SERVICES = [
-  MageService,
   ToasterService
 ];
 
@@ -40,7 +39,7 @@ const PAGES_COMPONENTS = [
 })
 export class PagesModule {
   constructor(
-    private mageService: MageService,
+    mageService: MageService,
     private toasterService: ToasterService,
     private router: Router
   ) {

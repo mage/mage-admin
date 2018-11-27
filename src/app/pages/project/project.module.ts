@@ -30,49 +30,6 @@ import { FormsModule } from '@angular/forms';
 import { ToasterModule } from 'angular2-toaster';
 import { PagesComponent } from '../pages.component';
 
-/**
- * Let our current script know of the SystemJS global.
- *
- * SystemJS is specified in this project's `.angular-cli.json` file.
- */
-declare const SystemJS;
-declare const System;
-
-const realImport = SystemJS.import.bind(SystemJS);
-System.import = SystemJS.import = (...args: any[]) => {
-  console.log(args);
-  return realImport(...args);
-}
-
-
-/**
- * Import typescript, and register it to SystemJS dynamically
- */
-import * as typescript from 'typescript/lib/typescript';
-SystemJS.registerDynamic('typescript', [], true, (require, exports, module) => Object.assign(exports, typescript));
-
-/**
- * Configure SystemJS.
- *
- * We have symlinked the typescript plugin
- * into our vendors folder; we let SystemJS know
- * it can download it from there.
- */
-SystemJS.config({
-  packages: {
-    'https://raw.githubusercontent.com': {
-      defaultExtension: 'ts'
-    },
-    ts: {
-      main: 'systemjs-typescript-plugin.js'
-    }
-  },
-  map: {
-    ts: 'assets/vendors'
-  },
-  transpiler: 'ts',
-});
-
 @NgModule({
   imports: [
     ToasterModule,
@@ -90,22 +47,4 @@ SystemJS.config({
     SystemJsNgModuleLoader
   ],
 })
-export class ProjectModule {
-  parentInjector: Injector
-
-  constructor(private compiler: Compiler, injector: Injector) {
-    this.parentInjector =  (injector as ReflectiveInjector).parent
-
-    setTimeout(() => SystemJS.import('https://raw.githubusercontent.com/AlexKhymenko/ngx-permissions/master/src/index.ts')
-    .then((module) => {
-      const moduleFactory = this.compiler.compileModuleSync(module.moduleClassName);
-      const moduleRef = moduleFactory.create(this.parentInjector);
-      const resolver = moduleRef.componentFactoryResolver;
-      const compFactory = resolver.resolveComponentFactory(PagesComponent);
-    })
-    .catch((error) => {
-      console.log(error)
-    }), 1000)
-
-  }
-}
+export class ProjectModule {}

@@ -1,5 +1,6 @@
 import { Config } from '../app.config';
 import { NbMenuItem } from '@nebular/theme';
+import { isDevMode } from '@angular/core';
 
 const BASIC_MENU_ITEMS = [
   {
@@ -165,6 +166,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
   ...BASIC_MENU_ITEMS,
 ];
 
-if (Config.showTemplateSamples) {
+if (isDevMode()) {
   MENU_ITEMS.push(...TEMPLATE_MENU_ITEMS);
 }

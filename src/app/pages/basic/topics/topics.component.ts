@@ -37,8 +37,8 @@ export class TopicsComponent {
   public errors: any[];
 
   constructor(private mageService: MageService, private toasterService: ToasterService) {
-    this.archivist = this.mageService.client.archivist;
-    mageService.call('archivist', 'getTopics')
+    this.archivist = this.mageService.getClient().archivist;
+    this.archivist.getTopics()
       .then((data) => {
         this.topics = data
         this.topicName = this.getTopicsName()[0];
@@ -51,7 +51,7 @@ export class TopicsComponent {
       return [];
     }
 
-    return Object.keys(this.topics);
+    return Object.keys(this.topics).sort();
   }
 
   setTopic(event: string) {
@@ -102,7 +102,7 @@ export class TopicsComponent {
     this.archivist.rawSet(
       this.topicName,
       this.index,
-      this.value,
+      JSON.stringify(this.value),
       this.data.value.mediaType,
       this.data.value.encoding
     );

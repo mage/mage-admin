@@ -43,8 +43,7 @@
         "../node_modules/tinymce/plugins/table/plugin.min.js",
         "./assets/vendors/echarts.min.js",
         "./assets/vendors/echarts.world.min.js",
-        "../node_modules/chart.js/dist/Chart.min.js",
-        "../node_modules/systemjs/dist/system.js"
+        "../node_modules/chart.js/dist/Chart.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

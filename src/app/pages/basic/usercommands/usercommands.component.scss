@@ -2,20 +2,39 @@
 
 @include nb-install-component() {
   .status {
-    overflow: auto;
+    overflow: none;
     z-index: 5;
     background-color: rgba(220, 220, 220, 0.75);
     box-shadow: 0 -8px 10px 0 rgba(6, 7, 8, 0.1);
     margin-top: 30px;
     position: fixed;
     bottom: 0;
-    left: 16.25rem;
-    right: 5px;
-    max-height: 390px;
+    left: 0;
+    right: 0;
+    max-height: 90px;
     padding: 20px;
+    z-index: 1000;
 
-    .wide {
-      left: 3.45rem;
+    .toggle {
+      font-size: 32px;
+      padding: 10px 10px 10px 0;
+      cursor: pointer;
+    }
+
+    &.open {
+      overflow: auto;
+      max-height: 690px;
+      transition: max-height 250ms ease-in;
+    }
+
+    .container {
+      display: block;
+      max-height: 440px;
+      overflow: auto;
+      margin-top: 10px;
+      padding: 0;
+      max-width: calc(100% - 41px);
+      margin-right: 3px;
     }
 
     @include nb-for-theme(dark) {
@@ -24,10 +43,16 @@
     }
 
     ng2-smart-table /deep/ {
-      margin: 20px;
-
       nav {
         margin-top: 0.5rem;
+      }
+
+      pre {
+        background: #6a8089;
+        border: 2px solid #fff;
+        padding: 10px;
+        border-radius: 3px;
+        text-shadow: 0 1px 3px rgba(6, 7, 8, 0.3);
       }
     }
   }
