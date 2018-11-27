@@ -23,7 +23,7 @@
                           <button type="submit" class="btn btn-hero-success">Send</button>
                         </div>
                       </form>
-                      <div renderjson [jsonData]="userCommand.response" *ngIf="userCommand.response" class="response"></div>
+                      <div ngxRenderJson [jsonData]="userCommand.response" *ngIf="userCommand.response" class="response"></div>
                   </ng-template>
                 </ngb-panel>
               </ngb-accordion>

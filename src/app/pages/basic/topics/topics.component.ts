@@ -26,9 +26,9 @@ export class TopicsComponent {
 
   public topicName: string;
 
-  public topic: any = "";
+  public topic: any = '';
 
-  public index: any
+  public index: any;
 
   public data: any;
 
@@ -40,7 +40,7 @@ export class TopicsComponent {
     this.archivist = this.mageService.getClient().archivist;
     this.archivist.getTopics()
       .then((data) => {
-        this.topics = data
+        this.topics = data;
         this.topicName = this.getTopicsName()[0];
         this.setTopic(this.topicName);
       });
@@ -55,8 +55,8 @@ export class TopicsComponent {
   }
 
   setTopic(event: string) {
-    this.data = null
-    this.value = null
+    this.data = null;
+    this.value = null;
 
     if (event !== '') {
       this.topic = this.topics[event];
@@ -65,12 +65,12 @@ export class TopicsComponent {
 
   find(form: NgForm) {
     this.index = form.value;
-    this.data = null
+    this.data = null;
     this.archivist.rawGet(this.topicName, form.value, {
       optional: true
     }, (error, data) => {
-      this.data = null
-      this.value = null
+      this.data = null;
+      this.value = null;
 
       if (error) {
         return this.toasterService.popAsync({
@@ -87,12 +87,12 @@ export class TopicsComponent {
         });
       }
 
-      this.data = data
+      this.data = data;
 
       if (data.value.mediaType === 'application/x-tome' || data.value.mediaType === 'application/json') {
-        this.value = JSON.parse(data.value.data)
+        this.value = JSON.parse(data.value.data);
       } else {
-        this.value = data.value.data
+        this.value = data.value.data;
       }
     });
   }
@@ -111,7 +111,7 @@ export class TopicsComponent {
       let message: any = {
         type: 'success',
         title: 'Saved!'
-      }
+      };
 
       if (error) {
         message = {

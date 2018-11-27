@@ -56,12 +56,12 @@ export class MageService {
   }
 
   public async login(email: string, password: string) {
-    if(!this.client.admin) {
-      throw new Error('admin module not found on remote server. Is mage-module-admin installed?')
+    if (!this.client.admin) {
+      throw new Error('admin module not found on remote server. Is mage-module-admin installed?');
     }
 
-    const user = await this.client.admin.login(email, password)
-    return this.setCurrentUser(user)
+    const user = await this.client.admin.login(email, password);
+    return this.setCurrentUser(user);
   }
 
   public on(eventName: string, callback: (...args: any[]) => void) {
@@ -82,12 +82,12 @@ export class MageService {
       let errorCount = 0;
 
       this.client.msgServer.stream.on('error', (error) => {
-        errorCount += 1
+        errorCount += 1;
 
-        setTimeout(() => errorCount -= 1, 15000)
+        setTimeout(() => errorCount -= 1, 15000);
 
         if (errorCount > 2) {
-          this.client.eventManager.emit('io.error.network')
+          this.client.eventManager.emit('io.error.network');
         }
       });
 
@@ -106,8 +106,6 @@ export class MageService {
     await this.client.setupModule('archivist', archivistModule);
 
     this.initialized = true;
-
-    return
   }
 
   public getClient() {
@@ -116,10 +114,10 @@ export class MageService {
 
   public async cloneClient() {
     const clone = new Mage(this.client.config);
-    clone.setEndpoint(this.url.origin)
-    await this.runClientSetup(clone)
+    clone.setEndpoint(this.url.origin);
+    await this.runClientSetup(clone);
 
-    return clone
+    return clone;
   }
 
   public getActorId() {

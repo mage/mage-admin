@@ -51,7 +51,7 @@ export class UserCommandsComponent {
 
   constructor(_smartTableService: SmartTableService, mageService: MageService) {
     const data = [];
-    const modules = mageService.getModulesUserCommands()
+    const modules = mageService.getModulesUserCommands();
     this.userCommands = Object.entries(modules)
       .filter(([name]) => name !== 'config')
       .map(([name, userCommands]) => ({ name, userCommands }))
@@ -102,11 +102,11 @@ export class UserCommandsComponent {
   }
 
   public toggle() {
-    this.open = !this.open
+    this.open = !this.open;
   }
 
   public clear() {
-    this.client.eventManager.emitEvent('session.unset')
+    this.client.eventManager.emitEvent('session.unset');
   }
 
   public async onSend(mod: string, userCommand: string, userCommandData: any, form: NgForm) {
@@ -118,15 +118,15 @@ export class UserCommandsComponent {
         .values(form.value)
         .map((value: string) => {
           try {
-            return JSON.parse(value)
+            return JSON.parse(value);
           } catch (error) {
-            return value
+            return value;
           }
         });
 
-      response = await this.client[mod][userCommand](...args)
+      response = await this.client[mod][userCommand](...args);
     } catch (error) {
-      console.error(error)
+      console.error(error);
       response = error.message || error;
     } finally {
       userCommandData.response = response;

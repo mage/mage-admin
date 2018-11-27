@@ -21,7 +21,7 @@
       <div class="alert alert-danger" *ngFor="let error of errors">{{ error.error }}{{ error.message }}</div>
     </div>
     <div class="col-md-12">
-      <div jsoneditor [jsonData]="value" *ngIf="value" class="response"></div>
+      <div ngxJsonEditor [jsonData]="value" *ngIf="value" class="response"></div>
     </div>
     <div *ngIf="data" class="send col-md-2 offset-md-10">
       <button (click)="save()" type="submit" class="btn btn-hero-danger">Save</button>

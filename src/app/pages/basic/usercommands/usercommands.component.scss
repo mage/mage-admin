@@ -3,7 +3,7 @@
 @include nb-install-component() {
   .status {
     overflow: none;
-    z-index: 5;
+    z-index: 1000;
     background-color: rgba(220, 220, 220, 0.75);
     box-shadow: 0 -8px 10px 0 rgba(6, 7, 8, 0.1);
     margin-top: 30px;
@@ -13,7 +13,6 @@
     right: 0;
     max-height: 90px;
     padding: 20px;
-    z-index: 1000;
 
     .toggle {
       font-size: 32px;
@@ -76,11 +75,10 @@
     }
 
     .card-header {
-      border: 2px solid #dadfe6;
+      border: none;
       font-family: Exo;
       font-size: 1.5rem;
       background-image: linear-gradient(to right, #ff38ac, #ff386a);
-      border: none;
 
       @include nb-for-theme(dark) {
         border: 1px solid #2c3539;

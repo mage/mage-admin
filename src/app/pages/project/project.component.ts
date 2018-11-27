@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'project-basic',
+  selector: 'ngx-project-basic',
   template: `
     <router-outlet></router-outlet>
   `,

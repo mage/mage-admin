@@ -1,13 +1,13 @@
-import { Directive, ElementRef, Input } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 import * as renderjson from 'renderjson';
 
 renderjson.set_icons('+', '-');
 renderjson.set_show_to_level(2);
 
 @Directive({
-  selector: '[renderjson]'
+  selector: '[ngxRenderJson]'
 })
-export class RenderJsonDirective {
+export class RenderJsonDirective implements OnInit {
   @Input() jsonData: any;
 
   constructor(private el: ElementRef) {

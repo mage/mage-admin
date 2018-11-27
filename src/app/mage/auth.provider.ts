@@ -9,13 +9,13 @@ import 'rxjs/add/observable/fromPromise';
 import { MageService } from './service';
 
 function trackError(error: Error) {
-  console.error(error)
+  console.error(error);
   return new NbAuthResult(
     false,
     null,
     false,
     [error],
-  )
+  );
 }
 
 class MageAuthSimpleToken extends NbAuthSimpleToken {
@@ -83,6 +83,17 @@ export class MageAuthProvider extends NbAbstractAuthProvider {
 
   logout(): Observable<NbAuthResult> {
     const client = this.mageService.getClient();
+
+    if (!client.admin) {
+      return Observable.fromPromise(Promise.resolve(new NbAuthResult(
+        true,
+        null,
+        '/',
+        [],
+        ['Logout successful']
+      )));
+    }
+
     const promise = client.admin.logout()
       .then((result) => new NbAuthResult(
         true,

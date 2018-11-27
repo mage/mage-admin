@@ -19,14 +19,20 @@
   @include ngx-pace-theme();
 
   // renderjson styles
-  .renderjson a { text-decoration: none; }
-  .renderjson .disclosure { margin-right: 5px; color: #F92672 !important; }
-  .renderjson .syntax { color: grey; }
-  .renderjson .string { color: #F92672; }
-  .renderjson .number { color: darkcyan; }
-  .renderjson .boolean { color: blueviolet; }
-  .renderjson .key    { color: #A6E22E; }
-  .renderjson .keyword { color: #41958E; }
-  .renderjson .object.syntax { color: #66E9DF; }
-  .renderjson .array.syntax  { color: #fd971f; }
+  .renderjson {
+    .disclosure {
+      margin-right: 5px;
+      color: #f92672 !important;
+    }
+
+    a { text-decoration: none; }
+    .syntax { color: grey; }
+    .string { color: #f92672; }
+    .number { color: darkcyan; }
+    .boolean { color: blueviolet; }
+    .key    { color: #a6e22e; }
+    .keyword { color: #41958e; }
+    .object.syntax { color: #66e9df; }
+    .array.syntax  { color: #fd971f; }
+  }
 };

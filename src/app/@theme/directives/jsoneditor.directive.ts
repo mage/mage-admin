@@ -1,10 +1,10 @@
-import { Directive, ElementRef, Input } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 import * as JSONEditor from 'jsoneditor';
 
 @Directive({
-  selector: '[jsoneditor]'
+  selector: '[ngxJsonEditor]'
 })
-export class JsonEditorDirective {
+export class JsonEditorDirective implements OnInit {
   @Input() jsonData: any;
 
   private editor: any;
